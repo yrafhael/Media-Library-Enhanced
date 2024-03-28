@@ -52,4 +52,56 @@ class Program
             logger.Info("Program ended");
         }
     }
+
+    static void AddMovie(MovieFile movieFile)
+    {
+        // log the user's choice
+        Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.ffff") + "|INFO|MediaLibrary.Program|User choice: \"1\"");
+
+        Console.Write("Enter movie title: ");
+        string title = Console.ReadLine();
+
+        List<string> genres = new List<string>();
+        while (true)
+        {
+            Console.Write("Enter genre (or done to quit): ");
+            string genre = Console.ReadLine();
+            if (genre.ToLower() == "done")
+                break;
+            genres.Add(genre);
+        }
+
+        Console.Write("Enter movie director: ");
+        string director = Console.ReadLine();
+
+        Console.Write("Enter running time (h:m:s): ");
+        string runtimeInput = Console.ReadLine();
+        TimeSpan runtime = TimeSpan.Parse(runtimeInput);
+
+        // Create a new movie object
+        Movie movie = new Movie
+        {
+            title = title,
+            director = director,
+            runningTime = runtime,
+            genres = genres
+        };
+
+        // Add the movie to the movie file
+        movieFile.AddMovie(movie);
+
+        // Log the addition of the movie
+        Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.ffff") + "|INFO|MediaLibrary.MovieFile|Media id " + movie.mediaId + " added");
+    }
+
+    static void DisplayAllMovies(MovieFile movieFile)
+    {
+        // Display all movies in the movie file
+        Console.WriteLine("All Movies:");
+        foreach (var movie in movieFile.Movies)
+        {
+            Console.WriteLine(movie.Display());
+        }
+    }
+    
 }
