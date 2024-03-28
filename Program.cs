@@ -2,7 +2,7 @@
 
 class Program
 {
-        private static NLog.Logger logger = LogManager.LoadConfiguration(Directory.GetCurrentDirectory() + "\\nlog.config").GetCurrentClassLogger();
+    private static NLog.Logger logger = LogManager.LoadConfiguration(Directory.GetCurrentDirectory() + "\\nlog.config").GetCurrentClassLogger();
 
     static void Main(string[] args)
     {
@@ -22,6 +22,7 @@ class Program
                 Console.WriteLine("Add Movie:");
                 Console.WriteLine("1) Add Movie");
                 Console.WriteLine("2) Display All Movies");
+                Console.WriteLine("3) Find movie");
                 Console.WriteLine("Enter to quit");
                 Console.Write("Enter your choice: ");
                 string choice = Console.ReadLine();
@@ -33,6 +34,9 @@ class Program
                         break;
                     case "2":
                         DisplayAllMovies(movieFile);
+                        break;
+                    case "3":
+                        FindMovie(movieFile);
                         break;
                     case "":
                         exit = true;
@@ -103,5 +107,18 @@ class Program
             Console.WriteLine(movie.Display());
         }
     }
-    
+
+    static void FindMovie(MovieFile movieFile)
+    {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        // LINQ - Where filter operator & Select projection operator & Contains quantifier operator
+        var titles = movieFile.Movies.Where(m => m.title.Contains("Walking")).Select(m => m.title);
+        // LINQ - Count aggregation method
+        Console.WriteLine($"There are {titles.Count()} movies with \"Walking\" in the title:");
+        foreach (string t in titles)
+        {
+            Console.WriteLine($"  {t}");
+        }
+        Console.ForegroundColor = ConsoleColor.White;
+    }
 }
